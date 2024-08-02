@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    margin: auto;
+    background-color: #a0a0a0;
+    text-align: center;
+    height: 100vh;
+}
+
+h1 {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.slider-container {
+    width: 300px;
+    text-align: center;
+    margin: auto;
+    height: 100px;
+}
+
+input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    background: #b3d9f4;
+    border-radius: 5px;
+    height: 8px;
+    outline: none;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: rgb(96, 96, 96);
+    border-radius: 50%;
+    height: 17px;
+    width: 17px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+
+input[type="range"]::-moz-range-thumb {
+    background: #404040;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    text-align: center;
+}
+
+input[type="range"]::-ms-thumb {
+    background: #4CAF50;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.slider-value {
+    margin-top: 15%;
+    font-size: 18px;
+    border-radius: 15px;
+    border-style: solid;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(96, 96, 96);
+    padding: 5px;
+    text-align: center;
+    width:fit-content;
+    margin: 0 auto;
+}
+
+.password-display {
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 10px;
+    height:fit-content;
+    width:fit-content;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    font-size: large;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgb(49, 49, 49);
+}
+button {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px;
+    border-style: solid;
+    border-color: rgb(95, 95, 95);
+    font-size: 25px;
+    font-weight: bold;
+    background-color: rgb(219, 219, 219);
+}
