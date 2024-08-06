@@ -12,6 +12,7 @@ async function genPass() {
         var word = await getWord();
         ourWords.push(word);
     }
+
     var myPass = ""
 
     if(hyphenCheckbox.checked){
