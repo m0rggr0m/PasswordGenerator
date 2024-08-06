@@ -14,8 +14,17 @@ async function genPass() {
         var word = await getWord();
         ourWords.push(word);
     }
+
     
-    var test = ourWords.join('-');
+    // var myPass = "";
+    // if checkbox is checked
+      // mypass = ourwords.join('-');
+    // else
+      //   mypass = ourword.join('')
+
+
+
+    // var test = ourWords.join('-');
     passwordDisplay.textContent = test;
 }
 
