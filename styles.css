@@ -27,7 +27,7 @@ h1 {
     padding: 20px;
     min-height: 39px;
     height:auto;
-    width: 450px;
+    min-width: 450px;
     text-align: center;
     margin: 0 auto;
     margin-top: 10%;
@@ -38,6 +38,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-wrap: anywhere;
 }
 button {
     cursor: pointer;
