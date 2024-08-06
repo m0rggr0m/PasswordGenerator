@@ -1,31 +1,27 @@
 const passwordDisplay = document.getElementById('passwordDisplay')
 const wordNumber = document.getElementById('wordNumber')
-const dictionary = ['this', 'cold', 'night', 'password', 'five', 'more', 'words', 'generator']
+const hyphenCheckbox = document.getElementById('hyphenCheckbox')
 
 wordNumber.addEventListener('input', function() {
     wordNumber.textContent = "Words: " + wordNumber.value;
 });
 
 async function genPass() {
-    var ourWords = [];
+    const ourWords = []
     for (let i = 0; i < wordNumber.value; i++) {
-        var dictLength = dictionary.length;
-        var randomNum = Math.floor(Math.random() * dictLength);
         var word = await getWord();
         ourWords.push(word);
     }
 
-    
-    // var myPass = "";
-    // if checkbox is checked
-      // mypass = ourwords.join('-');
-    // else
-      //   mypass = ourword.join('')
+    var myPass = ""
 
-
-
-    // var test = ourWords.join('-');
-    passwordDisplay.textContent = test;
+    if(hyphenCheckbox.checked){
+      myPass = ourWords.join('-')
+    }
+    else{
+      myPass = ourWords.join('')
+    }
+    passwordDisplay.textContent = myPass;
 }
 
 function checkNum(){
@@ -49,3 +45,12 @@ async function getWord() {
       return undefined;
     }
   }
+
+ document.onclick = function(e){
+  if(e.target != passwordDisplay)
+    passwordDisplay.contentEditable = false
+ }
+
+function editDisplay() {
+  passwordDisplay.contentEditable = true
+}
