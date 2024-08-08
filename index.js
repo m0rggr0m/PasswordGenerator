@@ -7,6 +7,11 @@ wordNumber.addEventListener('input', function() {
 });
 
 async function genPass() {
+
+  // customers seperator choice
+  var theSeperator = document.getElementById('userCustomSeperator').value || "-"
+
+  
     const ourWords = []
     for (let i = 0; i < wordNumber.value; i++) {
         var word = await getWord();
@@ -16,7 +21,7 @@ async function genPass() {
     var myPass = ""
 
     if(hyphenCheckbox.checked){
-      myPass = ourWords.join('-')
+      myPass = ourWords.join(theSeperator)
     }
     else{
       myPass = ourWords.join('')
@@ -40,11 +45,17 @@ async function getWord() {
       const data = await response.json();
       const number = Math.floor(Math.random() * 981);
       return data.commonWords[number];
+      return "hello world";
     } catch (error) {
       console.error('Error fetching JSON:', error);
       return undefined;
     }
-  }
+}
+
+
+function saveToBrowser(){
+  localStorage.setItem('customSeperator', document.getElementById('userCustomSeperator').value)
+}
 
  document.onclick = function(e){
   if(e.target != passwordDisplay)
@@ -54,3 +65,9 @@ async function getWord() {
 function editDisplay() {
   passwordDisplay.contentEditable = true
 }
+
+
+// This runs when the page loads and sets the custom seperator to the value stored in local storage
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('userCustomSeperator').value = localStorage.getItem('customSeperator')
+});
