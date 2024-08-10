@@ -8,23 +8,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
-
-    <link rel="stylesheet" href="styles.css?v=1.06">
-
+    <link rel="stylesheet" href="styles.css?v=1.07">
 </head>
 <body>
     <h1>Password Generator</h1>
     <div class="password-display" id="passwordDisplay" ondblclick="editDisplay()"></div>
-    <strong><label for="WordNumber">Words:</label></strong>
-    <input onchange="checkNum()" name="WordNumber" class="word-number" id="wordNumber" type="number" min="1" max="15" value ="3">
-    <button onclick="genPass()">Generate Password</button>
+    <div id="belowDisplay">
+        <strong><label>Words:</label></strong>
+        <select name="WordNumber" id="wordNumber" class="word-number">
+            <!-- Generate options from 3 to 15 -->
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+        </select>
 
-    <input type="checkbox" id="hyphenCheckbox" checked>Hyphens</button>
+        <button onclick="genPass()">Generate Password</button>
+        <strong><input type="checkbox" id="separatorCheckbox" checked>Separator</strong>
+        <br><br>
+    </div>
+    <strong><label>Enter your separator:</label></strong>
+    <input type="text" maxlength="1" id="userCustomSeparator" oninput="saveToBrowser()" value="-">
+    <script src="index.js?v=1.07"></script>
 
-    <br><br>
-
-    <label for="">Enter your seperator</label>
-    <input type="text" maxlength="1" id="userCustomSeperator" oninput="saveToBrowser()">
-    <script src="index.js?v=1.06"></script>
+    <footer id="pagecolorFooter">
+        <strong><label for="colorPicker">Change Background Color:</label></strong>
+        <input type="color" id="colorPicker" name="color" value="#ffffff" oninput="saveToBrowser()" onchange="changeColor()">
+    </footer>
 </body>
 </html>
