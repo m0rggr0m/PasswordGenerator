@@ -4,9 +4,10 @@ body {
     align-items: center;
     max-width: 500px;
     margin: auto;
-    background-color: #7cee65;
     text-align: center;
-    background: #0080ff79;
+    background-color: rgba(0, 0, 0, 0.685);
+    transition: background-color 2s;
+    
 }
 
 h1 {
@@ -18,7 +19,8 @@ h1 {
 .word-number {
     font-size: 15px;
     border-radius: 5px;
-    width: 35px;
+    text-align: center;
+    margin-right: 20px;
 }
 
 .password-display {
@@ -40,6 +42,7 @@ h1 {
     justify-content: center;
     overflow-wrap: anywhere;
 }
+
 button {
     cursor: pointer;
     border-radius: 8px;
@@ -48,5 +51,33 @@ button {
     border-color: rgb(95, 95, 95);
     font-size: 25px;
     font-weight: bold;
-    background-color: rgb(219, 219, 219);
+    background-color: rgb(255, 255, 255);
+}
+
+button:hover {
+    background-color: rgb(189, 189, 189);
+    
+}
+
+button:active {
+    box-shadow: inset 0px 0px 7px 0px black;
+}
+
+#userCustomSeparator {
+    font-size: 15px;
+    border-radius: 5px;
+    width: 10px;
+    text-align: center;
+}
+
+#separatorCheckbox {
+    margin-left: 20px;
+}
+
+#pagecolorFooter {
+    position: fixed;
+    text-align: center;
+    bottom: 0px;
+    width: 100%;
+    margin-bottom: 20px;
 }
