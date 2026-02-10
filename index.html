@@ -1,50 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795469889520015"
-     crossorigin="anonymous"></script>
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="manifest" href="favicons/site.webmanifest">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Generator</title>
-    <link rel="stylesheet" href="styles.css?v=1.10">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795469889520015" crossorigin="anonymous"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+  <link rel="manifest" href="favicons/site.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Generator</title>
+  <link rel="stylesheet" href="styles.css?v=3.4">
 </head>
 <body>
+  <main class="app">
     <h1>Password Generator</h1>
-    <div class="password-display" id="passwordDisplay" ondblclick="editDisplay()"></div>
-    <div id="belowDisplay">
-        <strong><label>Words:</label></strong>
-        <select name="WordNumber" id="wordNumber" class="word-number">
-            <!-- Generate options from 3 to 15 -->
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
+
+    <section class="password-panel">
+      <div id="passwordDisplay" class="password-display" contenteditable="true" role="textbox" aria-label="Generated password"></div>
+
+      <div class="actions">
+        <button id="generateButton">Generate Password</button>
+        <button id="copyButton" class="secondary">
+          <span>Copy</span>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 8h11v13H8z"></path>
+            <path d="M5 3h11v3H8v10H5z"></path>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="controls">
+      <label class="control-row" for="wordCount">
+        <span>Words</span>
+        <select id="wordCount" name="wordCount">
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
         </select>
+      </label>
 
-        <button onclick="genPass()">Generate Password</button>
-        <strong><input type="checkbox" id="separatorCheckbox" checked>Separator</strong>
-        <br><br>
-    </div>
-    <strong><label>Enter your separator:</label></strong>
-    <input type="text" maxlength="1" id="userCustomSeparator" oninput="saveToBrowser()" value="-">
-    <script src="index.js?v=1.10"></script>
+      <label class="control-row" for="separatorToggle">
+        <span>Use "-" separator</span>
+        <input id="separatorToggle" type="checkbox" checked>
+      </label>
 
-    <footer id="pagecolorFooter">
-        <strong><label for="colorPicker">Change Background Color:</label></strong>
-        <input type="color" id="colorPicker" name="color" value="#ffffff" oninput="saveToBrowser()" onchange="changeColor()">
-    </footer>
+      <label class="control-row" for="darkModeToggle">
+        <span>Dark mode</span>
+        <input id="darkModeToggle" type="checkbox">
+      </label>
+    </section>
+
+    <p id="status" class="status">Ready</p>
+  </main>
+
+  <script src="index.js?v=3.4"></script>
 </body>
 </html>

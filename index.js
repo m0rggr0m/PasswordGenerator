@@ -1,80 +1,138 @@
-const passwordDisplay = document.getElementById('passwordDisplay')
-const wordNumber = document.getElementById('wordNumber')
-const separatorCheckbox = document.getElementById('separatorCheckbox')
+let wordsCache = [];
 
+function cleanupDuplicateAndLegacyUi() {
+  const appCards = Array.from(document.querySelectorAll('main.app'));
+  const primaryApp = appCards[0];
 
-async function genPass() {
+  if (!primaryApp) {
+    throw new Error('No .app container found.');
+  }
 
-  // customers separator choice
-  var theSeparator = document.getElementById('userCustomSeparator').value || "-"
+  appCards.slice(1).forEach((node) => node.remove());
 
-  
-    const ourWords = []
-    for (let i = 0; i < wordNumber.value; i++) {
-        var word = await getWord();
-        ourWords.push(word);
-    }
-
-    var myPass = ""
-
-    if(separatorCheckbox.checked){
-      myPass = ourWords.join(theSeparator)
-    }
-    else{
-      myPass = ourWords.join('')
-    }
-    passwordDisplay.textContent = myPass;
-}
-
-
-async function getWord() {
-    const jsonFilePath = 'words.json';
-    try {
-      const response = await fetch(jsonFilePath);
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
+  ['#belowDisplay', '#pagecolorFooter', '#userCustomSeparator'].forEach((selector) => {
+    document.querySelectorAll(selector).forEach((node) => {
+      if (!primaryApp.contains(node)) {
+        node.remove();
       }
-      const data = await response.json();
-      const number = Math.floor(Math.random() * 981);
-      return data.commonWords[number];
-    } catch (error) {
-      console.error('Error fetching JSON:', error);
-      return undefined;
+    });
+  });
+
+  document.querySelectorAll('body > h1').forEach((heading) => {
+    if (!primaryApp.contains(heading) && heading.textContent.trim() === 'Password Generator') {
+      heading.remove();
     }
+  });
+
+  return primaryApp;
 }
 
-document.onclick = function(e){
-  if(e.target != passwordDisplay)
-    passwordDisplay.contentEditable = false
- }
+async function loadWords() {
+  if (wordsCache.length) return wordsCache;
 
-function editDisplay() {
-  passwordDisplay.contentEditable = true
+  const response = await fetch('words.json');
+  if (!response.ok) {
+    throw new Error(`Could not load words.json: ${response.status}`);
+  }
+
+  const data = await response.json();
+  wordsCache = data.commonWords || [];
+  return wordsCache;
 }
 
-
-function saveToBrowser(){
-  localStorage.setItem('customSeparator', document.getElementById('userCustomSeparator').value)
+function pickWord(words) {
+  return words[Math.floor(Math.random() * words.length)] || '';
 }
 
- 
+function applyTheme(isDarkMode) {
+  document.body.classList.toggle('dark-mode', isDarkMode);
+}
 
-// This runs when the page loads and sets the custom separator to the value stored in local storage
-document.addEventListener('DOMContentLoaded', function() {
-  var storageColor = localStorage.getItem('backgroundColor')
-  document.getElementById('userCustomSeparator').value = localStorage.getItem('customSeparator')
-  document.getElementById('colorPicker').value = storageColor
-  document.body.style.backgroundColor = storageColor
+function createHandlers(elements) {
+  const {
+    passwordDisplay,
+    wordCount,
+    separatorToggle,
+    darkModeToggle,
+    statusLabel
+  } = elements;
 
+  async function generatePassword() {
+    statusLabel.textContent = 'Generating...';
+
+    try {
+      const words = await loadWords();
+      const selected = [];
+
+      for (let i = 0; i < Number(wordCount.value); i += 1) {
+        selected.push(pickWord(words));
+      }
+
+      const separator = separatorToggle.checked ? '-' : '';
+      passwordDisplay.textContent = selected.join(separator);
+      statusLabel.textContent = 'Generated';
+    } catch (error) {
+      passwordDisplay.textContent = 'Unable to generate password';
+      statusLabel.textContent = 'Error loading word list';
+      console.error(error);
+    }
+  }
+
+  async function copyPassword() {
+    const value = passwordDisplay.textContent || '';
+
+    if (!value) {
+      statusLabel.textContent = 'Generate a password first';
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      statusLabel.textContent = 'Copied';
+    } catch (error) {
+      statusLabel.textContent = 'Clipboard unavailable';
+      console.error(error);
+    }
+  }
+
+  function toggleDarkMode() {
+    applyTheme(darkModeToggle.checked);
+    localStorage.setItem('darkMode', darkModeToggle.checked ? 'true' : 'false');
+  }
+
+  return { generatePassword, copyPassword, toggleDarkMode };
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const app = cleanupDuplicateAndLegacyUi();
+
+  const elements = {
+    passwordDisplay: app.querySelector('#passwordDisplay'),
+    wordCount: app.querySelector('#wordCount'),
+    separatorToggle: app.querySelector('#separatorToggle'),
+    darkModeToggle: app.querySelector('#darkModeToggle'),
+    generateButton: app.querySelector('#generateButton'),
+    copyButton: app.querySelector('#copyButton'),
+    statusLabel: app.querySelector('#status')
+  };
+
+  const { generatePassword, copyPassword, toggleDarkMode } = createHandlers(elements);
+
+  const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+  elements.darkModeToggle.checked = savedDarkMode;
+  applyTheme(savedDarkMode);
+
+  elements.generateButton.addEventListener('click', generatePassword);
+  elements.copyButton.addEventListener('click', copyPassword);
+  elements.darkModeToggle.addEventListener('change', toggleDarkMode);
+
+  elements.passwordDisplay.addEventListener('focus', () => {
+    elements.statusLabel.textContent = 'Editing';
+  });
+
+  elements.passwordDisplay.addEventListener('input', () => {
+    elements.statusLabel.textContent = 'Edited';
+  });
+
+  generatePassword();
 });
-
-function changeColor(){
-    
-      // Get the selected color value
-      const selectedColor = document.getElementById('colorPicker').value;
-
-      document.body.style.backgroundColor = selectedColor
-      // document.getElementById('colorForm').value = localStorage.getItem('backgroundColor')
-
-      localStorage.setItem('backgroundColor', document.getElementById('colorPicker').value)
-}
